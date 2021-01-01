@@ -1,0 +1,27 @@
+<alfresco-config>
+  
+   	<!-- CUST doc DETAILS aspect properties -->
+   <config evaluator="aspect-name" condition="CUST:Doc_Details">
+      <property-sheet>
+	  
+	     <separator name="sepCust1" display-label="Customer Additional Details" component-generator="HeaderSeparatorGenerator"/>
+		 <show-property name="CUST:DocumentType"/>
+         <show-property name="CUST:TeaserText" component-generator="MultilingualTextAreaGenerator"/>
+		 <show-property name="CUST:Keywords"/>
+		 		 
+   	     <separator name="sepCust2" display-label="Effectivity" component-generator="HeaderSeparatorGenerator"/>
+		 <show-property name="CUST:EffectiveDate"/>
+		 <show-property name="CUST:ExpirationDate"/>
+		 <show-property name="CUST:EndDailyDoseDate"/>
+
+    	 <separator name="sepCust3" display-label="Client Information" component-generator="HeaderSeparatorGenerator"/>
+		 <show-property name="CUST:ClientName"/>
+      </property-sheet>
+   </config>
+
+	<config evaluator="string-compare" condition="Action Wizards">
+      <aspects>
+         <aspect name="CUST:Doc_Details"/>
+      </aspects>
+   </config>
+</alfresco-config>

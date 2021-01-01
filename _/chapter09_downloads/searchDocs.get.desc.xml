@@ -1,0 +1,9 @@
+<webscript>
+  <shortname>Searching of Documents in the repository Through Webscript</shortname>
+  <description>Searches the documents in the repository</description>
+   <url>/custdocuments/searchDocs?keyword={keyword?}&amp;clientname={clientname?}</url>
+  <url>/custdocuments/searchDocs.xml?keyword={keyword?}&amp;clientname={clientname?}</url>
+  <authentication>user</authentication>
+  <transaction>required</transaction>
+</webscript>
+

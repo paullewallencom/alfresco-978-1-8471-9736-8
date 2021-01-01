@@ -1,0 +1,16 @@
+function data_from_webscript_block1() {
+  $output = '';
+  $url = 'http://202.131.102.100:8084/alfresco/service/facebook/helloworld';
+  $http_result = drupal_http_request($url);
+  if ($http_result->code == 200) {
+    $doc = $http_result->data;
+    $output .= $doc;
+  }
+  else {
+    $msg = 'No content from %url.';
+    $vars = array('%url' => $url);
+    watchdog('data_from_webscript', $msg, $vars, WATCHDOG_WARNING);
+    return t("The webscript is not accessible.");
+  }
+  return $output;
+}

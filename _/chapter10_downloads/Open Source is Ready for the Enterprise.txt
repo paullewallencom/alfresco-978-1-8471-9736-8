@@ -1,0 +1,4 @@
+Open Source is Ready for the Enterprise
+
+Alfresco, provider of an open source enterprise CMS, announced that the availability of the Alfresco Web Content Management Preview release. This release offers enterprise class open source Web Content Management (WCM) for today's next generation web sites. This is a major milestone for Alfresco which now offers a full Enterprise Content Management (ECM) suite of collaborative document management, records management, email archiving, image management and Web Content Management. 
+

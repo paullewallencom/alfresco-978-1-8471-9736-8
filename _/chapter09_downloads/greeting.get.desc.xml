@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Welcome</shortname>
+  <description>Polite greeting</description>
+  <url>/sample/greeting</url>
+  <authentication>user</authentication>
+</webscript>

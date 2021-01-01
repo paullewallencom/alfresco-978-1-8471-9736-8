@@ -1,0 +1,25 @@
+<alfresco-config>
+
+   <config evaluator="string-compare" condition="Content Wizards">
+      <content-types>
+         <type name="dynamic:Model1" />
+      </content-types>
+   </config>
+
+   <config evaluator="node-type" condition="dynamic:Model1">
+      <property-sheet>
+         <show-property name="mimetype" display-label-id="content_type" 
+                        component-generator="MimeTypeSelectorGenerator" />
+         <show-property name="dynamic:property11" />
+         <show-property name="dynamic:property12" />
+      </property-sheet>
+   </config>
+
+   <!-- Lists the custom content type in business rules Action wizard -->
+   <config evaluator="string-compare" condition="Action Wizards">
+      <subtypes>
+         <type name="dynamic:Model1"/>
+      </subtypes>      
+   </config>
+
+</alfresco-config>

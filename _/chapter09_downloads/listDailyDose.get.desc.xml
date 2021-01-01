@@ -1,0 +1,8 @@
+<webscript>
+	<shortname>Listing of Daily Dose Document Through Webscript</shortname>
+	<description>Contains the list of daily dose documents</description>
+	<url>/recentdocuments/dailydose/listDailyDose</url>
+	<authentication>guest</authentication>
+	<transaction>required</transaction>
+</webscript>
+

@@ -1,0 +1,47 @@
+<!--  File: extension/web-scripts-config-custom.xml        -->
+<!--  Example configuration of multiple OpenSearch engines -->
+<!--                                                       -->
+
+<alfresco-config>
+
+   <config evaluator="string-compare" condition="OpenSearch">
+      <opensearch>
+      
+         <engines>
+         
+            <!--                                                     -->
+            <!--  Example: Registration of remote Alfresco Server    -->
+            <!--                                                     -->
+            <engine label="Remote Alfresco Repository" proxy="remote">
+               <url type="application/atom+xml">
+                  http://partners.alfresco.com/alfresco/api/service/search/keyword.atom?q={searchTerms}&amp;p={startPage?}&amp;c={count?}&amp;l={language?}&amp;guest=true
+               </url>
+               <url type="application/rss+xml">
+                  http://partners.alfresco.com/alfresco/api/service/search/keyword.rss?q={searchTerms}&amp;p={startPage?}&amp;c={count?}&amp;l={language?}&amp;guest=true
+               </url>
+            </engine>
+            
+            <!--                                                     -->
+            <!--  Example: Registration of Yahoo Search Engine       -->
+            <!--                                                     -->
+	    <engine label="Yahoo Search" proxy="yahoo">
+		<url type="application/rss+xml">
+		   http://api.search.yahoo.com/WebSearchService/rss/webSearch.xml?appid=yahoosearchwebrss&amp;query={searchTerms}&amp;start={startIndex?}&amp;results={count?}
+	        </url>
+	    </engine>
+            
+            <!--                                                     -->
+            <!--  Example: Registration of Wikipedia                 -->
+            <!--                                                     -->
+	    <engine label="Wikipedia Search" proxy="wikipedia">
+		<url type="application/rss+xml">
+		    http://api.search.yahoo.com/WebSearchService/rss/webSearch.xml?appid=yahoosearchwebrss&amp;query={searchTerms}&amp;site=wikipedia.org&amp;start={startIndex?}&amp;results={count?}
+		</url>
+	    </engine>
+            
+         </engines>
+         
+      </opensearch>
+   </config>
+   
+</alfresco-config>

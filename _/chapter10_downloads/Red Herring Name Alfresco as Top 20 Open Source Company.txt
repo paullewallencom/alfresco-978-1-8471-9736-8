@@ -1,0 +1,4 @@
+Red Herring Name Alfresco as Top 20 Open Source Company
+
+Alfresco’s founders have lots of content management know-how: CEO John Powell is the former chief operating officer of Business Objects, a business intelligence software outfit, and Alfresco co-founder John Newton co-founded Documentum, a content management company purchased by EMC in 2003 for $1.7 billion. Tech consultancy Gartner says Alfresco is among the first in the open-source sector to expand beyond basic web content management. Its software is well positioned to become one of the main technologies used for enterprise content management systems, portals, and other solutions from service providers. Alfresco counts European governments and high-end investment banks among its customers. But it faces several competitors including EMC, FileNet, Interwoven, and Vignette.
+

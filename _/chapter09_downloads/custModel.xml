@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Custom Model -->
+
+<!-- Note: This model is pre-configured to load at startup of the Repository.  So, all custom -->
+<!--       types and aspects added here will automatically be registered -->
+
+<model name="CUST:customModel" xmlns="http://www.alfresco.org/model/dictionary/1.0">
+   <description>Custom Model</description>
+   <author></author>
+   <version>1.0</version>
+   <imports>
+		<import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d"/>
+		<import uri="http://www.alfresco.org/model/content/1.0" prefix="cm"/>
+   </imports>
+   <namespaces>
+      <namespace uri="custom.model" prefix="CUST"/>
+   </namespaces>
+      
+	<!--  Defining custom constraints for List ( Combo box )-->
+	<constraints>
+          <constraint name="CUST:doctypelist" type="LIST">
+				<parameter name="allowedValues">
+					<list>
+		                <value>SOP</value>
+		                <value>Client</value>
+						<value>Library</value>
+				    </list>
+	            </parameter>         
+		</constraint>		
+  </constraints>
+
+	<!-- Defining Custom aspects -->	
+    <aspects>
+		<aspect name="CUST:Doc_Details">
+			 <title>Customer Document Details</title>
+         <properties>
+				<!--  Title already there in out-of-the box -->
+				<!-- Document Type Combo property  -->
+				<property name="CUST:DocumentType">
+					<title>Document Type</title>
+	                <type>d:text</type>
+					<mandatory>true</mandatory>
+					<index enabled="true">
+						<tokenised>true</tokenised>
+					</index>
+		  		   <constraints>
+				       <constraint ref="CUST:doctypelist"/>
+		            </constraints>
+				</property>
+
+				<!-- TeaserText property  -->
+				<property name="CUST:TeaserText">
+					<title>Teaser Text</title>
+	                <type>d:text</type>
+					<mandatory>true</mandatory>
+					<index enabled="true">
+						<tokenised>true</tokenised>
+					</index>
+	            </property>
+
+				<!-- Keywords property  -->
+			    <property name="CUST:Keywords">
+					<title>Keywords</title>
+	                <type>d:text</type>
+					<mandatory>true</mandatory>
+					<index enabled="true">
+						<tokenised>true</tokenised>
+					</index>
+			    </property>
+
+				<!-- Effective Date property -->
+				<property name="CUST:EffectiveDate">
+					<title>Effective Date</title>
+					<type>d:date</type>
+					<index enabled="true">
+						<tokenised>true</tokenised>
+					</index>
+				</property>
+
+				<!-- Expire Date property -->
+				<property name="CUST:ExpirationDate">
+					<title>Expiration Date</title>
+					<type>d:date</type>
+					<index enabled="true">
+						<tokenised>true</tokenised>
+					</index>
+				</property>
+				
+				<!-- End Daily Dose Date property -->
+				<property name="CUST:EndDailyDoseDate">
+					<title>End Daily Dose Date</title>
+					<type>d:date</type>
+					<index enabled="true">
+						<tokenised>true</tokenised>
+					</index>
+				</property>
+
+				<!-- ClientName property -->
+				<property name="CUST:ClientName">
+					<title>Client Name</title>
+					<type>d:text</type>
+					<index enabled="true">
+						<tokenised>true</tokenised>
+					</index>
+				</property>
+				
+				<!-- ClientID property -->
+				<property name="CUST:ClientID">
+					<title>Client ID</title>
+					<type>d:text</type>
+					<index enabled="true">
+						<tokenised>true</tokenised>
+					</index>
+				</property>
+
+		</properties>				
+	</aspect>
+</aspects>
+</model>

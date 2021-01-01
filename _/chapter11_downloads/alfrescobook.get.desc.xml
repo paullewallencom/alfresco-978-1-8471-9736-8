@@ -1,0 +1,6 @@
+<webscript>
+   <shortname>Alfresco Book</shortname>
+   <description>Alfresco Book Dashlet</description>
+   <family>site-dashlet</family>
+   <url>/components/dashlets/Alfresco-Book</url>
+</webscript>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Custom Model -->
+
+<!-- Note: This model is pre-configured to load at startup of the Repository.  So, all custom -->
+<!--       types and aspects added here will automatically be registered -->
+
+<model name="custom:customModel" xmlns="http://www.alfresco.org/model/dictionary/1.0">
+
+   <!-- Optional meta-data about the model -->   
+   <description>Custom Model</description>
+   <author></author>
+   <version>1.0</version>
+
+   <imports>
+   	  <!-- Import Alfresco Dictionary Definitions -->
+      <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d"/>
+      <!-- Import Alfresco Content Domain Model Definitions -->
+      <import uri="http://www.alfresco.org/model/content/1.0" prefix="cm"/>
+   </imports>
+
+   <!-- Introduction of new namespaces defined by this model -->
+   <!-- NOTE: The following namespace custom.model should be changed to reflect your own namespace -->
+   <namespaces>
+      <namespace uri="custom.model" prefix="custom"/>
+   </namespaces>
+
+   <constraints>
+	<constraint name="custom:office_list" type="LIST">
+	      <parameter name="allowedValues">
+	           <list>
+	               <value>California USA</value>
+	               <value>New Jersey USA</value>
+	               <value>London UK</value>
+	               <value>Ahmedabad India</value>
+	               <value>Singapore</value>
+	           </list>
+	      </parameter>
+	</constraint>
+
+	<constraint name="custom:name_length" type="LENGTH">
+	      <parameter name="minLength">
+	          <value>3</value>
+	      </parameter>
+	      <parameter name="maxLength">
+	          <value>20</value>
+	      </parameter>
+	</constraint>
+   </constraints>
+   
+   <types>
+   
+      <!-- Definition of new Content Type: Press Release -->
+      <type name="custom:pressrelease">
+         <title>Press Release</title>
+         <parent>cm:content</parent>
+         <properties>
+            <property name="custom:PRName">
+               <title>PR Person Name</title>
+               <type>d:text</type>
+            </property>
+            <property name="custom:PREmail">
+               <title>PR Person Email</title>
+               <type>d:text</type>
+            </property>
+            <property name="custom:PRPhone">
+               <title>PR Person Phone</title>
+               <type>d:text</type>
+            </property>
+            <property name="custom:PRDate">
+               <title>PR Released Date</title>
+               <type>d:date</type>
+            </property>
+         </properties>
+         <associations>
+            <association name="custom:PRImage">
+               <title>Press Release Image</title>
+               <source>
+                  <mandatory>false</mandatory>
+                  <many>true</many>
+               </source>
+               <target>
+                  <class>cm:content</class>
+                  <mandatory>false</mandatory>
+                  <many>false</many>
+               </target>
+            </association>
+            <association name="custom:PRFiles">
+               <title>Press Release Files</title>
+               <source>
+                  <mandatory>false</mandatory>
+                  <many>true</many>
+               </source>
+               <target>
+                  <class>cm:content</class>
+                  <mandatory>false</mandatory>
+                  <many>true</many>
+               </target>
+            </association>
+         </associations>       
+      </type>
+      
+   </types>
+
+   <aspects>
+      
+      <!-- Definition of new Content Aspect: Customer Details -->
+      <aspect name="custom:CustomerDetails">
+         <title>Customer Details</title>
+         <properties>
+            <property name="custom:CustomerName">
+               <title>Customer Name</title>
+               <type>d:text</type>
+               <protected>false</protected>
+               <mandatory>false</mandatory>
+               <multiple>false</multiple>
+	       <index enabled="true">
+	          <atomic>false</atomic>
+	          <stored>false</stored>
+	          <tokenised>true</tokenised>
+	       </index>
+               <constraints>
+                 <constraint ref="custom:name_length"/>
+               </constraints>
+            </property>
+            
+            <property name="custom:ProjectLocation">
+               <title>Project Location</title>
+               <type>d:text</type>
+               <constraints>
+                 <constraint ref="custom:office_list"/>
+               </constraints>
+            </property>
+
+            <property name="custom:CustomerContactName">
+               <title>Customer Contact Name</title>
+               <type>d:text</type>
+            </property>
+            
+            <property name="custom:CustomerContactPhone">
+               <title>Customer Contact Phone</title>
+               <type>d:text</type>
+            </property>
+            
+            <property name="custom:CustomerProjectID">
+               <title>Customer Project ID</title>
+               <type>d:int</type>
+            </property>
+            
+            <property name="custom:NewCustomer">
+               <title>New Customer</title>
+               <type>d:boolean</type>
+               <default>true</default>
+            </property>
+         </properties>
+      </aspect>
+      
+   </aspects>
+         
+</model>

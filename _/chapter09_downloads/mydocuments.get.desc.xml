@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Alfresco Book Site Documents</shortname>
+  <description>My Documents Dashlet</description>
+  <family>site-dashlet</family>
+  <url>/components/dashlets/mydocuments</url>
+</webscript>

@@ -1,0 +1,107 @@
+<alfresco-config>
+
+   <!-- English is the default language.  Add additional languages to the list in the login page -->
+   <config evaluator="string-compare" condition="Languages">
+      <languages>
+         <language locale="de_DE">German</language>
+         <language locale="es_ES">Spanish</language>
+         <language locale="fr_FR">French</language>
+         <language locale="it_IT">Italian</language>
+         <language locale="ja_JP">Japanese</language>
+      </languages>
+   </config>
+
+   <!-- Example of adding a custom icon to the Create Space dialog -->
+   <config evaluator="string-compare" condition="cm:folder icons">
+      <icons>
+         <icon name="space-icon-custom" path="/images/icons/space-icon-custom1.gif" />
+      </icons>
+   </config>
+
+   <config>
+      <client>
+         <!-- Override the from email address -->
+         <from-email-address>munwar@cignex.com</from-email-address>
+
+         <!-- the minimum number of characters required for a valid search string -->
+         <search-minimum>3</search-minimum>
+         
+         <!-- set this value to true to enable AND text terms for simple/advanced search by default -->
+         <search-and-terms>false</search-and-terms>
+          
+         <!-- Limit search results. -1 for unlimited. -->
+         <search-max-results>100</search-max-results>
+      </client>     
+   </config>
+
+   <config evaluator="string-compare" condition="Advanced Search">
+      <advanced-search>
+         <content-types>
+            <type name="custom:pressrelease" />
+         </content-types>
+         <custom-properties>
+            <meta-data type="custom:pressrelease" property="custom:PRDate" />
+            <meta-data aspect="custom:CustomerDetails" property="custom:CustomerName" />
+            <meta-data aspect="custom:CustomerDetails" property="custom:NewCustomer" />
+         </custom-properties>
+      </advanced-search>
+   </config>
+
+   <config evaluator="string-compare" condition="Content Wizards">
+      <content-types>
+         <type name="custom:pressrelease" />
+      </content-types>
+   </config>
+
+   <config evaluator="node-type" condition="custom:pressrelease">
+      <property-sheet>
+         <show-property name="mimetype" display-label-id="content_type" 
+                        component-generator="MimeTypeSelectorGenerator" />
+         <show-property name="size" display-label-id="size" 
+                        converter="org.alfresco.faces.ByteSizeConverter" 
+                        show-in-edit-mode="false" />               
+         <show-property name="custom:PRName" />
+         <show-property name="custom:PREmail" />
+         <show-property name="custom:PRPhone" />
+         <show-property name="custom:PRDate" />
+         <show-association name="custom:PRImage"/>
+         <show-association name="custom:PRFiles"/>
+      </property-sheet>
+   </config>
+
+   <!-- Lists the custom aspect and custom content type in business rules Action wizard -->
+   <config evaluator="string-compare" condition="Action Wizards">
+      <aspects>
+         <aspect name="custom:CustomerDetails"/>
+      </aspects>
+      <subtypes>
+         <type name="custom:pressrelease"/>
+      </subtypes>      
+   </config>
+
+   <!-- Displays the properties in view details page -->
+   <config evaluator="aspect-name" condition="custom:CustomerDetails">
+      <property-sheet>
+         <separator name="sepCust1" display-label="Customer Details" component-generator="HeaderSeparatorGenerator" />
+         <show-property name="custom:CustomerName"/>
+         <show-property name="custom:ProjectLocation"/>         
+         <show-property name="custom:CustomerContactName"/>
+         <show-property name="custom:CustomerContactPhone"/>
+         <show-property name="custom:CustomerProjectID"/>
+         <show-property name="custom:NewCustomer"/>
+      </property-sheet>
+   </config>
+
+   <config evaluator="string-compare" condition="Dashboards">
+      <!-- Dashboard layouts and available dashlets for the My Alfresco pages -->
+      <dashboards>
+         <dashlets>
+            <!-- Add additional dashlet for press releases -->
+            <dashlet id="press-releases" label="Press Releases"
+                  description="Lists Press Releases with URL"
+                  jsp="/jsp/dashboards/dashlets/chapter11_press_releases.jsp" allow-narrow="true" />
+         </dashlets>
+      </dashboards>
+   </config>
+
+</alfresco-config>

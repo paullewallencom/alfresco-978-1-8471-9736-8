@@ -1,0 +1,30 @@
+<view:view xmlns:view="http://www.alfresco.org/view/repository/1.0"
+           xmlns:cm="http://www.alfresco.org/model/content/1.0"
+           xmlns:sys="http://www.alfresco.org/model/system/1.0"
+           xmlns:app="http://www.alfresco.org/model/application/1.0"
+          xmlns:usr="http://www.alfresco.org/model/user/1.0" >                
+		<cm:person view:childName="cm:person">
+                     <cm:userName>fredb</cm:userName>
+                     <cm:firstName>Fred</cm:firstName>
+                     <cm:lastName>Million</cm:lastName>
+                     <cm:email>fredb@alfresco.org</cm:email>
+                     <cm:homeFolder>/app:company_home
+                                    /app:user_homes/cm:fredb
+                      </cm:homeFolder>      
+                      <sys:node-uuid>4489977c-25b4-4980-ab2e-6d6307472bfa
+                      </sys:node-uuid>
+               </cm:person>
+               <cm:person view:childName="cm:person">
+                      <cm:userName>sues</cm:userName>
+                      <cm:firstName>Sue</cm:firstName>
+                      <cm:lastName>Sanderson</cm:lastName>
+                      <cm:email>sues@alfresco.org</cm:email>
+                      <cm:homeFolder>/app:company_home/
+                                      app:user_homes/cm:sues
+                      </cm:homeFolder>      
+                      <sys:node-uuid>4489977c-25b4-4980-ab2e- 
+                      6d6307472bfb
+                      </sys:node-uuid>
+               </cm:person>
+ </view:view>
+

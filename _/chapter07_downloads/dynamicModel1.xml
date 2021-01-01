@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Dynamic Model -->
+
+<model name="dynamic:dynamicModel" xmlns="http://www.alfresco.org/model/dictionary/1.0">
+
+   <!-- Optional meta-data about the model -->   
+   <description>Dynamic Model</description>
+   <author></author>
+   <version>1.0</version>
+
+   <imports>
+      <!-- Import Alfresco Dictionary Definitions -->
+      <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d"/>
+      <!-- Import Alfresco Content Domain Model Definitions -->
+      <import uri="http://www.alfresco.org/model/content/1.0" prefix="cm"/>
+   </imports>
+
+   <!-- Introduction of new namespaces defined by this model -->
+   <!-- NOTE: The following namespace dynamic.model should be changed to reflect your own namespace -->
+   <namespaces>
+      <namespace uri="dynamic.model" prefix="dynamic"/>
+   </namespaces>
+ 
+   <types>
+   
+      <!-- Definition of new Content Type: Model1 -->
+      <type name="dynamic:Model1">
+         <title>Dynamic Model ONE</title>
+         <parent>cm:content</parent>
+         <properties>
+            <property name="dynamic:property11">
+               <title>Dynamic Property 11</title>
+               <type>d:text</type>
+            </property>
+            <property name="dynamic:property12">
+               <title>Dynamic Property 12</title>
+               <type>d:text</type>
+            </property>
+         </properties>
+      </type>
+      
+   </types>
+
+</model>

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Filename: Global-review-processdefinition.xml
+	  Description: This file describes entry of the model,property file and Workflow file
+	  Author: Amita Bhandari
+ -->
+<process-definition xmlns="urn:jbpm.org:jpdl-3.1" name="global:documentReview">
+
+    <swimlane name="initiator"></swimlane>
+
+	 <swimlane name="assignee">
+      <assignment class="org.alfresco.repo.workflow.jbpm.AlfrescoAssignment">
+         <actor>#{bpm_assignee}</actor>
+      </assignment>
+   </swimlane>
+
+    <start-state name="start">
+        <task name="global:reviewTask" swimlane="initiator" />
+        <transition name="" to="startreview"/>
+	 </start-state>
+    <node name="startreview" >
+	   <event type="node-enter">
+			 <action class="org.alfresco.repo.workflow.jbpm.AlfrescoJavaScript">
+				<script>
+				   <variable name="startDate" access="write,read"/>
+						<expression>
+								 new Date();
+						</expression>
+				</script>            
+			 </action>
+        </event>
+		
+        <transition name="review" to="review" >               
+			<action class="org.alfresco.repo.workflow.jbpm.AlfrescoJavaScript">
+				    <script>
+                          var workflowFile=companyhome.childByNamePath("GlobalPlacement/logger.xml");
+						  if(workflowFile!=null)
+						  {            
+										var  content="&lt;instanceID&gt;&lt;value&gt;"+bpm_package.properties["bpm:workflowInstanceId"]+"&lt;/value&gt;&lt;description&gt;"+global_wfDescription+"&lt;/description&gt;					&lt;initiator&gt;"+initiator.properties.userName+"&lt;/initiator&gt;							&lt;status&gt;&lt;value&gt;Workflow Assigned&lt;/value&gt;&lt;actor&gt;"+bpm_assignee.properties.userName+"&lt;/actor&gt;	&lt;startdatetime&gt;"+startDate.getHours()+":"+startDate.getMinutes()+":"+startDate.getSeconds()+utils.pad(startDate.getDate(),2)+"-"+utils.pad((startDate.getMonth()+1),2)+"-"+utils.pad((startDate.getYear()-100),2)+"&lt;/startdatetime&gt;&lt;enddatetime&gt;"+startDate.getHours()+":"+startDate.getMinutes()+":"+startDate.getSeconds()+utils.pad(startDate.getDate(),2)+"-"+utils.pad((startDate.getMonth()+1),2)+"-"+utils.pad((startDate.getYear()-100),2)+"&lt;/enddatetime&gt;&lt;/status&gt;&lt;/instanceID&gt;&lt;/workflows&gt;";
+																
+										var newcontent=workflowFile.content.substring( 0 , workflowFile.content.length() - 12); 
+										workflowFile.content=newcontent+content;
+										workflowFile.save();     
+											
+						 }
+						 
+						 else
+						 {  
+										doc=companyhome.childByNamePath("GlobalPlacement");
+										var workflowFile = doc.createFile("logger.xml");
+										workflowFile.content="&lt;workflows&gt;&lt;instanceID&gt;&lt;value&gt;"+bpm_package.properties["bpm:workflowInstanceId"]+"&lt;/value&gt;&lt;description&gt;"+global_wfDescription+"&lt;/description&gt;&lt;initiator&gt;"+initiator.properties.userName+"&lt;/initiator&gt;							&lt;status&gt;&lt;value&gt;Workflow Assigned&lt;/value&gt;&lt;actor&gt;"+bpm_assignee.properties.userName+"&lt;/actor&gt;	&lt;startdatetime&gt;"+startDate.getHours()+":"+startDate.getMinutes()+":"+startDate.getSeconds()+utils.pad(startDate.getDate(),2)+"-"+utils.pad((startDate.getMonth()+1),2)+"-"+utils.pad((startDate.getYear()-100),2)+"&lt;/startdatetime&gt;&lt;enddatetime&gt;"+startDate.getHours()+":"+startDate.getMinutes()+":"+startDate.getSeconds()+utils.pad(startDate.getDate(),2)+"-"+utils.pad((startDate.getMonth()+1),2)+"-"+utils.pad((startDate.getYear()-100),2)+"&lt;/enddatetime&gt;&lt;/status&gt;&lt;/instanceID&gt;&lt;/workflows&gt;";
+										workflowFile.save();
+						}
+
+				          
+						  var userFile=companyhome.childByNamePath("GlobalPlacement/userlogger.xml");
+						  
+						  var actorname=bpm_assignee.properties.userName;
+						 
+						  if(userFile!=null)
+						  {        var content=userFile.content;
+						           var Index = content.indexOf(actorname);
+									
+									if(Index == -1)
+									{
+                                      content ="&lt;user&gt;&lt;name&gt;"+bpm_assignee.properties.userName+"&lt;/name&gt;&lt;instanceID&gt;   &lt;id&gt;"+bpm_package.properties["bpm:workflowInstanceId"]+"&lt;/id&gt;&lt;description&gt;"+global_wfDescription+"&lt;/description&gt;&lt;task&gt;	&lt;value&gt;Workflow Assigned&lt;/value&gt;&lt;startdatetime&gt;"+startDate.getHours()+":"+startDate.getMinutes()+":"+startDate.getSeconds()+utils.pad(startDate.getDate(),2)+"-"+utils.pad((startDate.getMonth()+1),2)+"-"+utils.pad((startDate.getYear()-100),2)+"&lt;/startdatetime&gt;&lt;enddatetime /&gt;&lt;/task&gt;&lt;/instanceID&gt;&lt;/user&gt;&lt;/workflows&gt;"; 
+
+                                      var newcontent=userFile.content.substring( 0 , userFile.content.length() - 12); 
+									  userFile.content=newcontent+content;
+									  userFile.save();
+									}
+									
+									else
+									{
+                                      var upperString = content.substring(0,content.indexOf(actorname));
+									  
+									  var lowerString = content.substring(content.indexOf(actorname),content.length());
+
+									  var instanceString="&lt;instanceID&gt;   &lt;id&gt;"+bpm_package.properties["bpm:workflowInstanceId"]+"&lt;/id&gt;&lt;description&gt;"+global_wfDescription+"&lt;/description&gt;&lt;task&gt;	&lt;value&gt;Workflow Assigned&lt;/value&gt;&lt;startdatetime&gt;"+startDate.getHours()+":"+startDate.getMinutes()+":"+startDate.getSeconds()+utils.pad(startDate.getDate(),2)+"-"+utils.pad((startDate.getMonth()+1),2)+"-"+utils.pad((startDate.getYear()-100),2)+"&lt;/startdatetime&gt;&lt;enddatetime /&gt;&lt;/task&gt;&lt;/instanceID&gt;";
+									  
+									  var middleString = lowerString.substring(0,lowerString.indexOf("&lt;instanceID&gt;"));
+                                       
+									   var lastString =  lowerString.substring(lowerString.indexOf("&lt;instanceID&gt;"),lowerString.length());
+
+									  userFile.content=upperString+middleString+instanceString+lastString;
+
+									  userFile.save();
+									}     
+											
+						 }
+						
+						 else
+						 {  
+										doc=companyhome.childByNamePath("GlobalPlacement");
+										var userFile = doc.createFile("userlogger.xml");
+                                        userFile.content="&lt;workflows&gt;&lt;user&gt;&lt;name&gt;"+bpm_assignee.properties.userName+"&lt;/name&gt;&lt;instanceID&gt;   &lt;id&gt;"+bpm_package.properties["bpm:workflowInstanceId"]+"&lt;/id&gt;&lt;description&gt;"+global_wfDescription+"&lt;/description&gt;&lt;task&gt;&lt;value&gt;Workflow Assigned&lt;/value&gt;&lt;startdatetime&gt;"+startDate.getHours()+":"+startDate.getMinutes()+":"+startDate.getSeconds()+utils.pad(startDate.getDate(),2)+"-"+utils.pad((startDate.getMonth()+1),2)+"-"+utils.pad((startDate.getYear()-100),2)+"&lt;/startdatetime&gt;&lt;enddatetime &gt;"+startDate.getHours()+":"+startDate.getMinutes()+":"+startDate.getSeconds()+utils.pad(startDate.getDate(),2)+"-"+utils.pad((startDate.getMonth()+1),2)+"-"+utils.pad((startDate.getYear()-100),2)+"&lt;/enddatetime&gt;&lt;/task&gt;&lt;/instanceID&gt;&lt;/user&gt;&lt;/workflows&gt;";
+										userFile.save();
+						}
+
+				</script>
+			</action>
+      </transition>
+    </node> 
+    <task-node name="review">
+        <task name="global:submitReviewTask" swimlane="assignee">           
+			 <event type="task-create">
+				 <action class="org.alfresco.repo.workflow.jbpm.AlfrescoJavaScript">
+					<script>
+						<variable name="createReviewDate" access="write,read"/>
+						<expression>
+								 new Date();
+						</expression>
+					</script>            
+				</action>
+			 </event>
+			 <event type="task-end">
+				 <action class="org.alfresco.repo.workflow.jbpm.AlfrescoJavaScript">
+					<script>
+					   <variable name="endReviewDate" access="write,read"/>
+					   <expression>
+								 new Date();
+					   </expression>
+					</script>            
+				 </action>
+			</event>
+        </task>
+        <transition name="Reject" to="end" >
+			<action class="org.alfresco.repo.workflow.jbpm.AlfrescoJavaScript">
+				<!-- logger.xml file is appended on the reject of the workflow
+				     userFile.xml file is appended on the reject of the workflow
+					 sends mail if the task is  rejected-->
+				<script>
+                  
+				   var workflowFile=companyhome.childByNamePath("GlobalPlacement/logger.xml");	   
+				   var date=new Date();
+				   var workflowInstanceId=bpm_package.properties["bpm:workflowInstanceId"];
+				   
+				   if(workflowFile!=null)
+				   {            
+								var wholeString = workflowFile.content;
+								var upperString = wholeString.substring(0,wholeString.indexOf(workflowInstanceId));
+								var lowerString =wholeString.substring(wholeString.indexOf(workflowInstanceId),wholeString.length());	var instanceStr = lowerString.substring(0,lowerString.indexOf("&lt;/instanceID&gt;"));
+
+								lowerString = lowerString.substring(lowerString.indexOf("&lt;/instanceID&gt;"),lowerString.length());
+								
+								var content="&lt;status&gt;&lt;value&gt;Reject&lt;/value&gt;&lt;actor&gt;"+bpm_assignee.properties.userName+"&lt;/actor&gt;&lt;startdatetime&gt;"+createReviewDate.getHours()+":"+createReviewDate.getMinutes()+":"+createReviewDate.getSeconds()+utils.pad(createReviewDate.getDate(),2)+"-"+utils.pad((createReviewDate.getMonth()+1),2)+"-"+utils.pad((createReviewDate.getYear()-100),2)+"&lt;/startdatetime&gt;&lt;enddatetime&gt;"+endReviewDate.getHours()+":"+endReviewDate.getMinutes()+":"+endReviewDate.getSeconds()+utils.pad(endReviewDate.getDate(),2)+"-"+utils.pad((endReviewDate.getMonth()+1),2)+"-"+utils.pad((endReviewDate.getYear()-100),2)+"&lt;/enddatetime&gt;&lt;/status&gt;";
+								
+								workflowFile.content = upperString + instanceStr + content + lowerString;
+								workflowFile.save();  
+										  
+										
+					}
+				   
+				   var userFile=companyhome.childByNamePath("GlobalPlacement/userlogger.xml");	   
+				   
+				   if(userFile!=null)
+				   {            
+								var wholeString = userFile.content;
+								var upperString = wholeString.substring(0,wholeString.indexOf(workflowInstanceId));
+								var lowerString =wholeString.substring(wholeString.indexOf(workflowInstanceId),wholeString.length());	var instanceStr = lowerString.substring(0,lowerString.indexOf("&lt;/instanceID&gt;"));
+
+								lowerString = lowerString.substring(lowerString.indexOf("&lt;/instanceID&gt;"),lowerString.length());
+								
+								var content= "&lt;task&gt;&lt;value&gt;Reject&lt;/value&gt;&lt;startdatetime&gt;"+createReviewDate.getHours()+":"+createReviewDate.getMinutes()+":"+createReviewDate.getSeconds()+utils.pad(createReviewDate.getDate(),2)+"-"+utils.pad((createReviewDate.getMonth()+1),2)+"-"+utils.pad((createReviewDate.getYear()-100),2)+" &lt;/startdatetime&gt;&lt;enddatetime&gt;"+endReviewDate.getHours()+":"+endReviewDate.getMinutes()+":"+endReviewDate.getSeconds()+utils.pad(endReviewDate.getDate(),2)+"-"+utils.pad((endReviewDate.getMonth()+1),2)+"-"+utils.pad((endReviewDate.getYear()-100),2)+"&lt;/enddatetime&gt;&lt;/task&gt;";
+															
+								userFile.content = upperString + instanceStr + content + lowerString;
+								userFile.save();  
+										  
+										
+					}
+					
+				   
+				 </script>
+			 </action>
+			 <action class="org.alfresco.repo.workflow.jbpm.AlfrescoJavaScript">
+			    <script>
+				     
+					 var mail = actions.create("mail");
+					 mail.parameters.to = initiator.properties.email;
+					 mail.parameters.subject = "Request";
+					 mail.parameters.from = bpm_assignee.properties.email;
+					 mail.parameters.text = "Hi \n Task has been Rejected . \n Thanks";
+					 mail.execute(bpm_package);
+					   
+			   </script>
+           </action>
+		</transition>
+        <transition name="Approve" to="end">
+        	 <action class="org.alfresco.repo.workflow.jbpm.AlfrescoJavaScript">
+			  <!-- logger.xml file is appended on the approval of the workflow
+				     userFile.xml file is appended on the approval of the workflow
+					 sends mail if the task is  approved-->
+				  <script>
+					   
+					   var workflowFile=companyhome.childByNamePath("GlobalPlacement/logger.xml");	   
+					   var date=new Date();
+					   var workflowInstanceId=bpm_package.properties["bpm:workflowInstanceId"];
+					   if(workflowFile!=null)
+					   {            
+								var wholeString = workflowFile.content;
+								var upperString = wholeString.substring(0,wholeString.indexOf(workflowInstanceId));
+								var lowerString = wholeString.substring(wholeString.indexOf(workflowInstanceId),wholeString.length());
+								var instanceStr = lowerString.substring(0,lowerString.indexOf("&lt;/instanceID&gt;"));
+								lowerString = lowerString.substring(lowerString.indexOf("&lt;/instanceID&gt;"),lowerString.length());
+								var content="&lt;status&gt;&lt;value&gt;Approve&lt;/value&gt;&lt;actor&gt;"+bpm_assignee.properties.userName+"&lt;/actor&gt;&lt;startdatetime&gt;"+createReviewDate.getHours()+":"+createReviewDate.getMinutes()+":"+createReviewDate.getSeconds()+utils.pad(createReviewDate.getDate(),2)+"-"+utils.pad((createReviewDate.getMonth()+1),2)+"-"+utils.pad((createReviewDate.getYear()-100),2)+"&lt;/startdatetime&gt;&lt;enddatetime&gt;"+endReviewDate.getHours()+":"+endReviewDate.getMinutes()+":"+endReviewDate.getSeconds()+utils.pad(endReviewDate.getDate(),2)+"-"+utils.pad((endReviewDate.getMonth()+1),2)+"-"+utils.pad((endReviewDate.getYear()-100),2)+"&lt;/enddatetime&gt;&lt;/status&gt;";
+									
+								workflowFile.content = upperString + instanceStr + content + lowerString;
+								workflowFile.save();
+											
+						}
+					  
+					   
+					   
+					   var userFile=companyhome.childByNamePath("GlobalPlacement/userlogger.xml");	   
+					   
+					   if(userFile!=null)
+					   {            
+								var wholeString = userFile.content;
+								var upperString = wholeString.substring(0,wholeString.indexOf(workflowInstanceId));
+								var lowerString = wholeString.substring(wholeString.indexOf(workflowInstanceId),wholeString.length());
+								var instanceStr = lowerString.substring(0,lowerString.indexOf("&lt;/instanceID&gt;"));
+								lowerString = lowerString.substring(lowerString.indexOf("&lt;/instanceID&gt;"),lowerString.length());
+								var content= "&lt;task&gt;&lt;value&gt;Approve&lt;/value&gt;&lt;startdatetime&gt;"+createReviewDate.getHours()+":"+createReviewDate.getMinutes()+":"+createReviewDate.getSeconds()+utils.pad(createReviewDate.getDate(),2)+"-"+utils.pad((createReviewDate.getMonth()+1),2)+"-"+utils.pad((createReviewDate.getYear()-100),2)+" &lt;/startdatetime&gt;&lt;enddatetime&gt;"+endReviewDate.getHours()+":"+endReviewDate.getMinutes()+":"+endReviewDate.getSeconds()+utils.pad(endReviewDate.getDate(),2)+"-"+utils.pad((endReviewDate.getMonth()+1),2)+"-"+utils.pad((endReviewDate.getYear()-100),2)+"&lt;/enddatetime&gt;&lt;/task&gt;";
+								
+								userFile.content = upperString + instanceStr + content + lowerString;
+								userFile.save();
+											
+						}
+					   var nurseFolder =companyhome.childByNamePath("GlobalPlacement/Nurse");
+					   bpm_package.children[0].move(nurseFolder); 
+
+				</script>
+			</action>
+			<action class="org.alfresco.repo.workflow.jbpm.AlfrescoJavaScript">
+			   <script>
+				     
+					 var mail = actions.create("mail");
+					 mail.parameters.to = initiator.properties.email;
+					 mail.parameters.subject = "Request";
+					 mail.parameters.from = bpm_assignee.properties.email;
+					 mail.parameters.text = "Hi \n Task has been Approved and Completed . \n Thanks";
+					 mail.execute(bpm_package);
+					   
+			  </script>
+          </action>
+       </transition>
+    </task-node>
+   
+    <end-state name="end"/>
+
+
+</process-definition>
